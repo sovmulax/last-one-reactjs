@@ -1,8 +1,8 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import Bloglist from "./BlogList";
 const Home = () => {
   const [name, setName] = useState("evane");
-  const [blogs, setBlogs] = useState([
+  const [blogs, setBolgs] = useState([
     { title: "My new website", body: "lorem ipsum...", author: "mario", id: 1 },
     { title: "Welcome party!", body: "lorem ipsum...", author: "yoshi", id: 2 },
     {
@@ -22,6 +22,15 @@ const Home = () => {
     console.log("hello " + name);
   };
 
+  const handleClick = (id) => {
+    const newBlog = blogs.filter(blog => blog.id !== id)
+    setBolgs(newBlog)
+  };
+
+  useEffect(() => {
+    console.log("this function ru at every render or re-render")
+  }, [name]) //dependency
+
   return (
     <div className="home">
       <h2>Homepage</h2>
@@ -35,13 +44,11 @@ const Home = () => {
       </button>
       <br />
       <br />
-      {blogs.map((blog) => (
-        <div className="blog-preview" key={blog.id}>
-          <h1>{blog.title}</h1>
-          <h4>{blog.author}</h4>
-          <p>{blog.body}</p>
-        </div>
-      ))}
+      <Bloglist
+        blogs={blogs}
+        title={"Blogs Liste"}
+        handleClick={handleClick}
+      ></Bloglist>
     </div>
   );
 };
