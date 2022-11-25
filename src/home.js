@@ -2,16 +2,8 @@ import { useState, useEffect } from "react";
 import Bloglist from "./BlogList";
 const Home = () => {
   const [name, setName] = useState("evane");
-  const [blogs, setBolgs] = useState([
-    { title: "My new website", body: "lorem ipsum...", author: "mario", id: 1 },
-    { title: "Welcome party!", body: "lorem ipsum...", author: "yoshi", id: 2 },
-    {
-      title: "Web dev top tips",
-      body: "lorem ipsum...",
-      author: "mario",
-      id: 3,
-    },
-  ]);
+  const [blogs, setBolgs] = useState(null);
+  const [isLoading, setIsLoading] = useState(true)
 
   const ClickHandle = () => {
     console.log("You just click on Me");
@@ -23,13 +15,23 @@ const Home = () => {
   };
 
   const handleClick = (id) => {
-    const newBlog = blogs.filter(blog => blog.id !== id)
-    setBolgs(newBlog)
+    const newBlog = blogs.filter((blog) => blog.id !== id);
+    setBolgs(newBlog);
   };
 
   useEffect(() => {
-    console.log("this function ru at every render or re-render")
-  }, [name]) //dependency
+    console.log("this function ru at every render or re-render");
+    setTimeout(() => {
+      fetch("http://localhost:8000/blogs")
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setBolgs(data);
+          setIsLoading(false)
+        });
+    }, 1000);
+  }, []); //dependency
 
   return (
     <div className="home">
@@ -44,11 +46,14 @@ const Home = () => {
       </button>
       <br />
       <br />
-      <Bloglist
-        blogs={blogs}
-        title={"Blogs Liste"}
-        handleClick={handleClick}
-      ></Bloglist>
+     {isLoading && <div>Loading...</div>} 
+      {blogs && (
+        <Bloglist
+          blogs={blogs}
+          title={"Blogs Liste"}
+          handleClick={handleClick}
+        />
+      )}
     </div>
   );
 };
