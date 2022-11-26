@@ -16,6 +16,8 @@ const Navbar = () => {
         >
           Create
         </Link>
+        <Link to="/clock">Clock</Link>
+        <Link to="/convert">Convertisseur</Link>
       </div>
     </nav>
   );

@@ -3,6 +3,8 @@ import Home from "./home";
 import Create from './Create.js'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import BlogDetails from "./BlogDetails";
+import Clock from "./Clock";
+import Conert from "./Convert";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route exact path="/create" element={<Create />} />
             <Route exact path="/blogs/:id" element={<BlogDetails />} />
+            <Route exact path="/clock" element={<Clock />} />
+            <Route exact path="/convert" element={<Conert />} />
           </Routes>
         </div>
       </div>
